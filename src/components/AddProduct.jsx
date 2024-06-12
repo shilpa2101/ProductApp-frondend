@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const AddProduct = () => {
     const [datas,changeData]=useState(
@@ -8,7 +9,8 @@ const AddProduct = () => {
             "productid":"",
             "price":"",
             "description":"",
-            "suppliername":""
+            "suppliername":"",
+            "image":""
             
         }
     )
@@ -17,6 +19,16 @@ const AddProduct = () => {
     }
     const readValue=()=>{
         console.log(datas)
+        axios.post(" http://localhost:8087/add",datas).then(
+            (response)=>{
+                console.log(response.data)
+                if (response.data.status=="success") {
+                    alert("success")
+                } else {
+                    alert("error")
+                }
+            }
+        ).catch()
     }
   return (
     <div>
@@ -25,6 +37,10 @@ const AddProduct = () => {
             <div className="row">
                 <div className="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
                     <div className="row g-3">
+                    <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                        <label htmlFor="" className="form-label">image</label>
+                           <input type="file" name="image" value={datas.image} onChange={inputHandler} id="" className="form-control" />
+                        </div>
                         <div className="col col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                             <label htmlFor="" className="form-label">Name</label>
                             <input type="text" className="form-control" name='name' value={datas.name} onChange={inputHandler} />

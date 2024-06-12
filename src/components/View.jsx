@@ -1,26 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
+import axios from 'axios'
 
 const View = () => {
     const [datas,changedata]=useState(
         [
-           {
-            "name":"Phone", 
-            "productid":12,
-            "price":12563,
-            "description":"64gb storage",
-            "suppliername":"Shilpa"
-           },
-           {
-            "name":"Dress", 
-            "productid":21,
-            "price":1256,
-            "description":"cotton wear",
-            "suppliername":"Harshitha"
-           }
+          
         ]
            
     )
+    const fetchData=()=>{
+      axios.post("http://localhost:8087/view").then(
+          (response)=>{
+              changedata(response.data)
+              console.log(response.data)
+          }
+      ).catch(
+          (error)=>{
+              console.log(error.message)
+          }
+      )
+  }
+  useEffect(()=>{fetchData()},[])
   return (
     <div>
     <Navbar/>
@@ -36,6 +37,7 @@ const View = () => {
       <th scope="col">price</th>
       <th scope="col">description</th>
       <th scope="col">SUPPLIERNAME</th>
+      <th>image</th>
     </tr>
   </thead>
   {datas.map(
@@ -48,6 +50,8 @@ const View = () => {
                 <td>{value.price}</td>
                 <td>{value.description}</td>
                 <td>{value.suppliername}</td>
+                <td>{value.image}</td>
+               
                 </tr>
             
             </tbody>
